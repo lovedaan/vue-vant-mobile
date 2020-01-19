@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <van-button type="primary" @click="showPicker">主要按钮</van-button>
+    <van-button type="primary" @click="showlist">34234234</van-button>
 		<transition name="slide-fade">
 			<div class="area-picker" v-if="isShow">
 				<div class="picker">
@@ -8,13 +9,14 @@
 				</div>
 			</div>
 		</transition>
-		
+		<img src="http://img3.doubanio.com/view/photo/l_ratio_poster/public/p2579512247.jpg" alt="">
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import areaList from '@/utils/area.js'
+import axios from 'axios'
 export default {
   name: 'home',
   components: {},
@@ -23,8 +25,23 @@ export default {
 			areaList,
 			areaCode: '',
 			show: false,
+			isList: false,
 			isShow: false,
 		}
+	},
+	mounted() {
+		axios.get('/doubanApi/in_theaters', {
+			params: {
+			  apikey: '0b2bdeda43b5688921839c8ecb20399b',
+			  start: 0,
+			  count: 10
+			}
+		  }).then(res => {
+			  console.log(res.data);
+		  }).catch(err => {
+			this.canShow = true;
+			console.log(err)
+		  })
 	},
 	methods: {
 		animateShow() {
@@ -36,6 +53,9 @@ export default {
 		confirmPicker(res) {
 			this.isShow = false;
 			console.log(res);
+		},
+		showlist() {
+			this.isList = true;
 		},
 		cancelPicker() {
 			this.isShow = false;
@@ -66,7 +86,7 @@ export default {
 		&.slide-fade-enter-active,
 		&.slide-fade-leave-active {
 			transition: all 0.5s;
-			.picker { 
+			.picker {
 				transition: all 0.5s;
 			}
 		}

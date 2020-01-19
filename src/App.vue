@@ -3,7 +3,14 @@
     <router-view />
   </div>
 </template>
-
+<script>
+  import {a} from 'params';
+  export default {
+    mounted() {
+      console.log(a)
+    }
+  }
+</script>
 <style lang="less">
 * {
 	margin: 0;
